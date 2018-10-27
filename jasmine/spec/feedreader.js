@@ -21,6 +21,7 @@ $(function() {
          * allFeeds in app.js to be an empty array and refresh the
          * page?
          */
+
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
@@ -32,12 +33,27 @@ $(function() {
          * and that the URL is not empty.
          */
 
+        it('URL are defined and not 0', function() {
+            for(let feed of allFeeds) {
+                expect(feed.url).toBeDefined();
+                expect(feed.url.length).not.toBe(0);
+            }
+        });
+
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+
+         it('Name are defined and not 0', function() {
+             for(let feed of allFeeds) {
+                expect(feed.name).toBeDefined();
+                expect(feed.name.length).not.toBe(0);
+             }
+         });
     });
+
 
 
     /* TODO: Write a new test suite named "The menu" */
@@ -53,6 +69,22 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
+    describe('the menu', function() {
+        const body = document.querySelector('body');
+        const menu = document.querySelector('.menu-icon-link');
+
+        it('is hidden', function () {
+            expect(body.classList.contains('menu-hidden')).toBe(true);
+        });
+
+        it('is displayed and hides', function() {
+            menu.click();
+            expect(body.classList.contains('menu-hidden')).not.toBe(true);
+            menu.click();
+            expect(body.classList.contains('menu-hidden')).toBe(true);
+        })
+    });
+
 
     /* TODO: Write a new test suite named "Initial Entries" */
 
@@ -63,10 +95,46 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
 
+    describe('Initial Entries', function() {
+        const entries = document.querySelector('.feed').children;
+
+        beforeEach(function(done) {
+            loadFeed(0, done);
+        });
+
+        it('contains a single entry element', function() {
+            expect(entries[0]).toBeDefined();
+        });
+
+    });
+
     /* TODO: Write a new test suite named "New Feed Selection" */
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+
+    describe('New Feed Selection', function() {
+        let firstFeedEntryOne;
+        let secondFeedEntryOne;
+
+        beforeEach(function(done) {
+            loadFeed(0, function() {
+              firstFeedEntryOne = document.querySelector('.feed .entry').innerHTML;
+
+              loadFeed(1, function() {
+                secondFeedEntryOne = document.querySelector('.feed .entry').innerHTML;
+                done();
+              })
+            });
+        });
+
+        it('actually changes', function() {
+            expect(firstFeedEntryOne !== secondFeedEntryOne).toBe(true);
+        });
+
+    });
+
+
 }());
