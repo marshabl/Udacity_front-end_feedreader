@@ -63,7 +63,7 @@ $(function() {
             expect(body.classList.contains('menu-hidden')).not.toBe(true);
             menu.click();
             expect(body.classList.contains('menu-hidden')).toBe(true);
-        })
+        });
     });
 
 
@@ -100,7 +100,7 @@ $(function() {
               loadFeed(1, function() {
                 secondFeedEntryOne = document.querySelector('.feed .entry').innerHTML;
                 done();
-              })
+              });
             });
         });
 
