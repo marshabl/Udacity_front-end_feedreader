@@ -71,10 +71,13 @@ $(function() {
     // test uses the feed class in the container to look for entries after
     // loadFeed() has been called
     describe('Initial Entries', function() {
-        const entries = document.querySelector('.feed').children;
+        let entries;
 
         beforeEach(function(done) {
-            loadFeed(0, done);
+            loadFeed(0, function() {
+              entries = document.querySelectorAll('.feed .entry');
+              done();
+            });
         });
 
         it('contains a single entry element', function() {
@@ -102,7 +105,7 @@ $(function() {
         });
 
         it('actually changes', function() {
-            expect(firstFeedEntryOne !== secondFeedEntryOne).toBe(true);
+            expect(firstFeedEntryOne).not.toEqual(secondFeedEntryOne);
         });
 
     });
